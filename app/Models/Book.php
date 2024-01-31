@@ -53,15 +53,15 @@ class Book extends Model
     public static function getBookById(array $fields, string $book_id)
     {
         $book = DB::table('books')
-            ->join('authors', 'books.book_author_id', '=', 'authors.author_id')
-            ->join('categories', 'books.book_category_id', '=', 'categories.category_id')
-            ->join('publishers', 'books.book_publisher_id', '=', 'publishers.publisher_id')
-            ->join('shelfs', 'books.book_shelf_id', '=', 'shelfs.shelf_id')
+            ->leftJoin('authors', 'books.book_author_id', '=', 'authors.author_id')
+            ->leftJoin('categories', 'books.book_category_id', '=', 'categories.category_id')
+            ->leftJoin('publishers', 'books.book_publisher_id', '=', 'publishers.publisher_id')
+            ->leftJoin('shelfs', 'books.book_shelf_id', '=', 'shelfs.shelf_id')
             ->select($fields)
             ->where('books.book_id', '=', $book_id)
             ->first();
 
-        return $book;
+        return (array)$book;
     }
 
     public static function createBook(array $data): self

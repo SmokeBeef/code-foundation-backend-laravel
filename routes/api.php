@@ -33,3 +33,4 @@ Route::middleware("jwt")->group(function () {
     Route::patch('/books/{id}', [BookController::class, "update"]);
     Route::delete('/books/{id}', [BookController::class, "destroy"]);
 });
+Route::get('/books/{id}', [BookController::class, "show"]);

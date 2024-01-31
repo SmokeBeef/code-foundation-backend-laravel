@@ -162,7 +162,7 @@ class QueryDTO extends BaseDTO
     {
         $this->between = $between;
     }
-    protected function setId(int $id): void
+    protected function setId(string $id): void
     {
         $this->id = $id;
     }

@@ -106,6 +106,27 @@ class BookController extends Controller
 
     }
 
+    public function show($id)
+    {
+        try {
+
+            $config = [
+                "id" => $id
+            ];
+            $bookQueryDto = new BookQueryDTO($config);
+            $operation = BookService::getById($bookQueryDto);
+            if ($operation->isSuccess()) {
+                return self::responseSuccess($operation->getMessage(), $operation->getResult(), $operation->getCode());
+            }
+
+            return self::responseError($operation->getMessage(), $operation->getCode(), $operation->getErrors());
+
+        } catch (Exception $err) {
+            dd($err);
+            return self::responseError("internal error");
+        }
+    }
+
     public function update($id, Request $request)
     {
         try {

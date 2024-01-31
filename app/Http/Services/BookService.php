@@ -82,6 +82,34 @@ class BookService
         return $operation;
     }
 
+    public static function getById(BookQueryDTO $bookQueryDTO): Operation
+    {
+        $operation = new Operation();
+        if (!$bookQueryDTO->isSuccess()) {
+
+            $operation->setIsSuccess(false)
+                ->setMessage($bookQueryDTO->getMessage())
+                ->setErrors($bookQueryDTO->getErrors())
+                ->setCode($bookQueryDTO->getCode());
+            return $operation;
+        }
+        $field = $bookQueryDTO->getFields();
+        $id = $bookQueryDTO->getId();
+
+        $result = Book::getBookById($field, $id);
+        if (!$result) {
+            $operation->setIsSuccess(false)
+                ->setMessage("failed get book by id, id not found")
+                ->setCode(404);
+            return $operation;
+        }
+
+        $operation->setIsSuccess(true)
+            ->setMessage("success get book by id")
+            ->setCode(200)
+            ->setResult($result);
+        return $operation;
+    }
 
 
     public static function update(BookMutationDTO $bookMutationDTO)
